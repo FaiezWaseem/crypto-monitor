@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .price-up {
+            color: green;
+            font-weight: bold;
+        }
+        .price-down {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cryptocurrency Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Current Price (USD)</th>
+                <th>6h Price Change (%)</th>
+                <th>12h Price Change (%)</th>
+                <th>24h Price Change (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const [coin, info] of Object.entries(coinData)) { %>
+                <tr>
+                    <td><%= coin.charAt(0).toUpperCase() + coin.slice(1) %></td>
+                    <td>$<%= info.usd.toFixed(2) %></td>
+                    
+                    <!-- 6-hour price change -->
+                    <td>
+                        <% if (prices6hAgo[coin] !== null) { %>
+                            <% const change6h = ((info.usd - prices6hAgo[coin]) / prices6hAgo[coin]) * 100; %>
+                            <span class="<%= change6h >= 0 ? 'price-up' : 'price-down' %>">
+                                <%= change6h.toFixed(2) %>%
+                            </span>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </td>
+
+                    <!-- 12-hour price change -->
+                    <td>
+                        <% if (prices12hAgo[coin] !== null) { %>
+                            <% const change12h = ((info.usd - prices12hAgo[coin]) / prices12hAgo[coin]) * 100; %>
+                            <span class="<%= change12h >= 0 ? 'price-up' : 'price-down' %>">
+                                <%= change12h.toFixed(2) %>%
+                            </span>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </td>
+
+                    <!-- 24-hour price change -->
+                    <td>
+                        <% if (prices24hAgo[coin] !== null) { %>
+                            <% const change24h = ((info.usd - prices24hAgo[coin]) / prices24hAgo[coin]) * 100; %>
+                            <span class="<%= change24h >= 0 ? 'price-up' : 'price-down' %>">
+                                <%= change24h.toFixed(2) %>%
+                            </span>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>
