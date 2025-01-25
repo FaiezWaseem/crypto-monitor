@@ -141,9 +141,13 @@ app.get('/', async (req, res) => {
     });
     
 
-SqliteGuiNode(sqlitedb).catch((err) => {
-    console.error("Error starting the GUI:", err);
-  });
+
+if (process.env.NODE_ENV != 'production') {
+    SqliteGuiNode(sqlitedb ).catch((err) => {
+        console.error("Error starting the GUI:", err);
+    });
+}
+
   app.set('view engine', 'ejs');
   app.set('views', path.join(__dirname, 'views')); // Set the views directory
   
